@@ -16,44 +16,59 @@ Dans cet exercice, vous créerez une classe `Fraction` représentant un nombre r
 
 1. Sur la forge, créez le dépôt (_repository_) `SimpleFraction`;
 En terme de *commits*, quelle différence constatez-vous entre cocher une (ou plusieurs) des cases *Initialize this repository with* et n'en cocher aucune ?
-    > Répondre ici
+    > Il y a un commit automatique si on coche une case, donc il y a un décalage de commit entre le serveur et la machine local. 
+    En conséquence on ne peut pas fusionner le dossier local et le serveur.
 
     *Pour la suite, ne cochez aucune de ces cases*.
 1. Localement, configurez `git` avec votre nom (`user.name`) et votre email (`user.email`) (cf. [Personnalisation de Git](https://git-scm.com/book/fr/v2/Personnalisation-de-Git-Configuration-de-Git));
     ```bash
     # Répondre ici
+    git config --global user.name "Tom Abbouz"
+    git config --global user.email "tom.gonnaud@gmail.com"
     ```
 1. Initialisez le dépôt `git` local pour le projet (cf. [Démarrer un dépôt Git](https://git-scm.com/book/fr/v2/Les-bases-de-Git-D%C3%A9marrer-un-d%C3%A9p%C3%B4t-Git));
     ```bash
-    # Répondre ici
+    git init
     ```
 1. Dans votre IDE, créez la classe `Fraction` (vide pour le moment) et la classe `Main` (avec un simple affichage) dans le projet (cf. [Méthode `main`](https://docs.oracle.com/javase/specs/jls/se19/html/jls-12.html#jls-12.1.4));
 Vérifiez que le projet compile et s'exécute dans l'IDE;
 Validez les changements (cf. [Enregistrer des modifications dans le dépôt](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Enregistrer-des-modifications-dans-le-d%C3%A9p%C3%B4t));
     ```bash
     # Commandes pour valider les changements
+    git add .
+    git commit -m "Premier commit"
     ```
 1. Ajoutez la méthode `toString` à la classe `Fraction` (cf. [`Object.toString`](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString())) qui retournera la chaîne `"Je suis une fraction."` et modifiez la classe `Main` en conséquence;
 Validez les changements;
     ```Java
     // Code pour tester toString
+    fraction f = new fraction();
+    assert f.toString().equals("Je suis une fraction.") : "toString() ne retoure pas la bonne phrase.";
     ```
 1. Publiez vos modifications sur le dépôt distant (cf. [Travailler avec des dépôts distants](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Travailler-avec-des-d%C3%A9p%C3%B4ts-distants));
 Vous utiliserez le protocole `https` pour cela;
 Vérifiez avec le navigateur;
     ```bash
     # Commandes pour publier les modifications
+    (si nécessaire : git remote remove origin)
+    git remote add origin https://github.com/uvsq21804964/SimpleFraction.git
+    git branch -M main 
+    git push -u origin main
     ```
 1. Sur la forge, ajoutez un fichier de documentation `README.md`.
 Quelle syntaxe est utilisée pour ce fichier ?
     > Répondre ici
+    La syntaxe est Markdown
+
 1. Récupérez localement les modifications effectuées sur la forge.
     ```bash
     # Répondre ici
+    git pull
     ```
 1. Ajoutez les répertoires et fichiers issus de la compilation aux fichiers ignorés par `git` (cf. [`.gitignore` pour Java](https://github.com/github/gitignore/blob/main/Java.gitignore));
     ```bash
     # Copier ici le contenu de `.gitignore`
+    *.class
     ```
 1. Retirez les fichiers de configuration de l'IDE du projet;
     ```bash
@@ -62,6 +77,8 @@ Quelle syntaxe est utilisée pour ce fichier ?
     Ajoutez-les aux fichiers ignorés par `git`.
     ```bash
     # Copier ici les modifications de `.gitignore`
+    .vscode/*
+    launch.json
     ```
 1. Configurez l'accès par clé publique/clé privée à la forge (cf. [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)).
     > Expliquez la procédure de façon synthétique
@@ -77,6 +94,8 @@ Vous respecterez les consignes ci-dessous :
 1. Ajoutez les attributs représentants le numérateur et le dénominateur (nombres entiers).
     ```Java
     // Déclaration des attributs
+    private int denominateur;
+    private int numerateur;
     ```
 1. Ajoutez les constructeurs (cf. [Constructor Declarations](https://docs.oracle.com/javase/specs/jls/se19/html/jls-8.html#jls-8.8)) suivants :
     * initialisation avec un numérateur et un dénominateur,
@@ -84,6 +103,30 @@ Vous respecterez les consignes ci-dessous :
     * initialisation sans argument (numérateur égal _0_ et dénominateur égal à _1_),
     ```Java
     // Assertions pour tester les constructeurs (avec toString)
+
+    //Nouvelles fonctions toString() dans fraction.java
+    public String toStringDenominateur(){
+    StringBuilder sb = new StringBuilder();
+    sb.append(this.denominateur);
+    return sb.toString();
+    }
+
+    public String toStringNumerateur(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.numerateur);
+        return sb.toString();
+    }
+
+    //Dans java.main
+    fraction g = new fraction(3,2);
+    fraction h = new fraction(3);
+    fraction i = new fraction();
+    assert g.toStringNumerateur().equals("3") : "Numérateur g != 3";
+    assert g.toStringDenominateur().equals("2") : "Dénominateur g != 2";
+    assert h.toStringNumerateur().equals("3") : "Numérateur h != 3";
+    assert h.toStringDenominateur().equals("1") : "Dénominateur h != 1";
+    assert i.toStringNumerateur().equals("0") : "Numérateur i != 0";
+    assert i.toStringDenominateur().equals("1") : "Dénominateur i != 1";
     ```
 1. Ajoutez les fractions constantes ZERO (0, 1) et UN (1, 1) (cf. [Constants in Java](https://www.baeldung.com/java-constants-good-practices)),
     ```Java
